@@ -57,6 +57,9 @@ $(function() {
 
 	function applyColor(hexValue){
 		this.newConversion.css( "background-color", hexValue );
+		if(hexValue.slice(0,4) === '#fff'){
+			this.newConversion.css( "color", "#333" );
+		}
 	}
 
 	$( "#convert" ).on( "click", getHexValue );
