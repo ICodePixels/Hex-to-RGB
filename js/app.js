@@ -44,9 +44,14 @@ $(function() {
 		*/
 		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hexValue);
 
-		var red = parseInt(result[1], 16),
-			green = parseInt(result[2], 16),
-			blue = parseInt(result[3], 16);
+		if(result === null){
+			return false;
+		} else{
+			var red = parseInt(result[1], 16),
+				green = parseInt(result[2], 16),
+				blue = parseInt(result[3], 16);
+		}
+
 
 		this.newConversion = $('<div>')
 			.html("<span class='hex'>" + hexValue + "</span> = " + "<span class='rgb'>rgb(" + red + "," + green + "," + blue + ")</span>")
