@@ -3,15 +3,20 @@
  * www.icodepixels.com
  */
 $(function() {
+
+	function getRGBValue(){
+		var hex = rgbToHex($('#rgbValue').val().replace(/ /g,''));
+	}
+
 	function getHexValue() {
 		var hexValue = $('#hexValue').val().replace(/ /g,'');
 		if(hexValue === "")
 			return false;
 		else
-			return hexToRgbShort(hexValue)
+			return hexToRgb(hexValue)
 	}
 
-	function hexToRgbShort(hexValue) {
+	function hexToRgb(hexValue) {
 		// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
 		var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 		hexValue = hexValue.replace(shorthandRegex, function(m, r, g, b) {
@@ -19,11 +24,10 @@ $(function() {
 		});
 
 		/**
-		 *** var result regex:
-		 /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i
+		 *** var result regex expression:
 		 ^ assert position at start of the string
 		 #? matches the character # literally
-		 Quantifier: ? Between zero and one time, as many times as possible, giving back as needed [greedy]
+
 		 1st Capturing group ([a-f\d]{2})
 		 [a-f\d]{2} match a single character present in the list below
 		 Quantifier: {2} Exactly 2 times
@@ -50,6 +54,7 @@ $(function() {
 			var red = parseInt(result[1], 16),
 				green = parseInt(result[2], 16),
 				blue = parseInt(result[3], 16);
+
 			this.newConversion = $('<div>')
 				.html("<span class='hex'>" + hexValue + "</span> = " + "<span class='rgb'>rgb(" + red + "," + green + "," + blue + ")</span>")
 				.appendTo($('.hexResults'));
@@ -58,14 +63,7 @@ $(function() {
 		}
 	}
 
-	function applyColor(hexValue){
-		this.newConversion.css( "background-color", hexValue );
-		if(hexValue.slice(0,4) === '#fff'){
-				this.newConversion.css( "color", "#333" );
-			}
-	}
-
-	function rgb2hex(rgb){
+	function rgbToHex(rgb){
 		rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
 		var hex = (rgb && rgb.length === 4) ? "#" +
 		("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
@@ -79,8 +77,11 @@ $(function() {
 		applyColor(hex);
 	}
 
-	function getRGBValue(){
-		var hex = rgb2hex($('#rgbValue').val().replace(/ /g,''));
+	function applyColor(hexValue){
+		this.newConversion.css( "background-color", hexValue );
+		if(hexValue.slice(0,4) === '#fff' || hexValue.slice(0,4) === '#eee'){
+			this.newConversion.css( "color", "#333" );
+		}
 	}
 
 	$('#rgbconvert').on("click", getRGBValue);

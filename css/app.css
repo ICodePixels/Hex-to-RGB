@@ -13,4 +13,6 @@ body{
 .hexResults, .rgbResult{
     margin-top: 10px;
     color: #fff;
+    text-align: center;
+    padding: 10px;
 }
