@@ -1,16 +1,16 @@
 body{
     color: #333333;
 }
-.hexToRGBcontainer{
+.hexToRGBcontainer, .rgbToHexContainer{
     position: relative;
     width: 80%;
     margin: auto;
 }
-#hexValue {
+#hexValue, #rgbValue {
     width: 50%;
     display: inline-block;
 }
-.convertedValue{
+.hexResults, .rgbResult{
     margin-top: 10px;
     color: #fff;
 }

@@ -4,7 +4,7 @@
  */
 $(function() {
 	function getHexValue() {
-		var hexValue = $('#hexValue').val().trim();
+		var hexValue = $('#hexValue').val().replace(/ /g,'');
 		if(hexValue === "")
 			return false;
 		else
@@ -50,22 +50,39 @@ $(function() {
 			var red = parseInt(result[1], 16),
 				green = parseInt(result[2], 16),
 				blue = parseInt(result[3], 16);
+			this.newConversion = $('<div>')
+				.html("<span class='hex'>" + hexValue + "</span> = " + "<span class='rgb'>rgb(" + red + "," + green + "," + blue + ")</span>")
+				.appendTo($('.hexResults'));
+
+			applyColor(hexValue);
 		}
-
-
-		this.newConversion = $('<div>')
-			.html("<span class='hex'>" + hexValue + "</span> = " + "<span class='rgb'>rgb(" + red + "," + green + "," + blue + ")</span>")
-			.appendTo($('.convertedValue'));
-
-		applyColor(hexValue);
 	}
 
 	function applyColor(hexValue){
 		this.newConversion.css( "background-color", hexValue );
 		if(hexValue.slice(0,4) === '#fff'){
-			this.newConversion.css( "color", "#333" );
-		}
+				this.newConversion.css( "color", "#333" );
+			}
 	}
 
-	$( "#convert" ).on( "click", getHexValue );
+	function rgb2hex(rgb){
+		rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+		var hex = (rgb && rgb.length === 4) ? "#" +
+		("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+		("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+		("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+
+		this.newConversion = $('<div>')
+			.html("<span class='hex'>" + hex + "</span>" + " = " + "<span class='rgb'>" + rgb.input + "</span>")
+			.appendTo($('.rgbResult'));
+
+		applyColor(hex);
+	}
+
+	function getRGBValue(){
+		var hex = rgb2hex($('#rgbValue').val().replace(/ /g,''));
+	}
+
+	$('#rgbconvert').on("click", getRGBValue);
+	$( "#hexconvert" ).on( "click", getHexValue );
 });
